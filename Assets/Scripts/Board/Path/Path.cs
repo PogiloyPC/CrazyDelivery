@@ -1,7 +1,7 @@
 using PathInterface;
 using UnityEngine;
 
-public class Path : MonoBehaviour
+public class Path : MonoBehaviour, IPath
 {
     [SerializeField] private Point[] _points;
 
@@ -13,7 +13,7 @@ public class Path : MonoBehaviour
 
     public Vector3 GetNextPoint() => _points[_numberPoint].GetPosition();
 
-    public void SetNewPoint(IPathWalker pathWalker)
+    public void SetNextPoint(IPathWalker pathWalker)
     {
         if (_pathType == PathType.line)
         {

@@ -31,7 +31,7 @@ public class PathWalker : MonoBehaviour, IPathWalker, IBoard
                 transform.position = Vector3.MoveTowards(transform.position, _path.GetNextPoint(), Time.deltaTime * _speed);
 
             if (Vector3.Distance(transform.position, _path.GetNextPoint()) < _distance * _distance)
-                _path.SetNewPoint(this);
+                _path.SetNextPoint(this);
         }
     }
 

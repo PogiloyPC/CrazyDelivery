@@ -8,5 +8,5 @@ public class Point : MonoBehaviour
     public Vector3 GetScale() => transform.localScale;
     public void SetPosition(Vector3 position) => transform.position = position;
     public void SetRotation(Quaternion rotation) => transform.rotation = rotation;
-    public Vector3 SetScale(Vector3 scale) => transform.localScale = scale;
+    public void SetScale(Vector3 scale) => transform.localScale = scale;
 }

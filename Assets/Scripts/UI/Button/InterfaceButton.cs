@@ -1,6 +1,8 @@
 
 
-namespace InterfaceButton
+using PlayerInterface;
+
+namespace UIinterface
 {
     public interface ISliderButton
     {
@@ -15,6 +17,11 @@ namespace InterfaceButton
     public interface IControleLevelPanel
     {
         
+    }
+
+    public interface IPlayerCard
+    {
+        public PlayerBody GetPlayerBody();
     }
 
     public interface ISetActivePanel

@@ -1,9 +1,9 @@
-using InterfaceButton;
+using UIinterface;
 using PlayerInterface;
 using UnityEngine;
 using ViewInterface;
 
-namespace GameControleInterface
+namespace SceneControleInterface
 {
     public interface IControleScene : IContainerViewHealthPlayer
     {
@@ -16,6 +16,11 @@ namespace GameControleInterface
     {
         public IViewHealthPlayer GetViewHealthPlayer();
     }
+    
+    public interface IContainePlayer
+    {
+        public IPlayer GetPlayer();
+    }
 
     public interface IContainerTimeLevel
     {
@@ -23,4 +28,10 @@ namespace GameControleInterface
 
         public float StartTimeLevel();
     }
+
+
+    public interface IContainerStartPosition
+    {
+        public Vector3 GetStartPosition();
+    }    
 }

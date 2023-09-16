@@ -1,13 +1,19 @@
+using PlayerInterface;
 using UnityEngine;
 
 public class CameraMoving : MonoBehaviour
 {
-    [SerializeField] private Point _player;
+    private Point _player;
 
     [SerializeField] private Vector3 _offset;
 
     [SerializeField] private float _damping;
-    
+
+    public void InitPoint(IPlayerPoint player)
+    {
+        _player = player.GetPoint();
+    }
+
     private void LateUpdate()
     {
         Vector3 directionX = Vector3.Lerp(transform.position, 

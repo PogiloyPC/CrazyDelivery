@@ -1,5 +1,5 @@
+using SceneControleInterface;
 using InterfaceDrug;
-using InterfaceTable;
 using TrapInterface;
 using UnityEngine;
 
@@ -37,9 +37,14 @@ namespace PlayerInterface
         public void SetForce(IPlatformJumping platform);
     }
 
+    public interface IPlayerPoint
+    {
+        public Point GetPoint();
+    }
+
     public interface IHealthPlayer
     {
-        public void TakeDamage(IHitPlayer damage);
+        public void TakeDamage(IDamageDillerPlayer damage);
 
         public void RestoreHealth(IDrug drag);
 
@@ -48,10 +53,7 @@ namespace PlayerInterface
         public int CurrentHealth();
 
         public int StartHealth();
-    }
 
-    public interface IHitPlayer
-    {
-        public int GiveDamage();
+        public void InitAction(IControleScene controleScene);
     }
 }

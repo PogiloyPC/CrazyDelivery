@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using InterfaceButton;
+using UIinterface;
 
 public class SliderButton : StaticButton, ISliderButton
 {

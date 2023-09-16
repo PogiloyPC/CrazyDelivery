@@ -6,9 +6,7 @@ public class BurgerAttack : Trap
 {
     [SerializeField] private Rigidbody _rb;
 
-    [SerializeField] private Point _body;
-
-    [SerializeField] private Point _player;
+    [SerializeField] private Point _body;    
 
     [SerializeField] private Vector3 _rotateZXY;
 
@@ -29,7 +27,7 @@ public class BurgerAttack : Trap
     {
         _rb.velocity = transform.forward * _speed;
 
-        Vector3 direct = _player.GetPosition() - transform.position;
+        Vector3 direct = _player.GetTransform().position - transform.position;
         Vector3 directRotate = new Vector3(direct.x, 0f, direct.z);
 
         _rb.rotation = Quaternion.Lerp(_rb.rotation, Quaternion.LookRotation(directRotate), _speedRotationY * Time.deltaTime);

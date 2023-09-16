@@ -1,4 +1,4 @@
-using GameControleInterface;
+using SceneControleInterface;
 using UnityEngine;
 using UnityEngine.UI;
 

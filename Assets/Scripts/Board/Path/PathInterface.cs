@@ -14,6 +14,13 @@ namespace PathInterface
         line
     }
 
+    public interface IPath
+    {
+        void SetNextPoint(IPathWalker pathWalker);
+
+        Vector3 GetNextPoint();
+    }
+
     public interface IPathWalker
     {
 

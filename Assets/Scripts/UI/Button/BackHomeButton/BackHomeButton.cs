@@ -1,5 +1,5 @@
-using GameControleInterface;
-using InterfaceButton;
+using SceneControleInterface;
+using UIinterface;
 using UnityEngine;
 
 public class BackHomeButton : DinamicButton, ISetActivePanel

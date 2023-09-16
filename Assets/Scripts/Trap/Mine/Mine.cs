@@ -12,7 +12,7 @@ public class Mine : Trap
     [SerializeField] private Material _red;
     [SerializeField] private Material _green;
 
-    private IHealthPlayer _player;
+    private IHealthPlayer _playerHealth;
 
     private IEnumerator _explosion;
 
@@ -29,7 +29,7 @@ public class Mine : Trap
 
         if (player != null)
         {
-            _player = player;
+            _playerHealth = player;
 
             _explosion = ControleTimeMine();
 
@@ -43,7 +43,7 @@ public class Mine : Trap
 
         if (player != null)
         {
-            _player = null;
+            _playerHealth = null;
 
             _lamp.material = _green;
             if (_deactivation)
@@ -116,8 +116,8 @@ public class Mine : Trap
                 body.AddExplosionForce(_forceExplosion, transform.position, _radiusCircle);
         }
 
-        if (_player != null)
-            _player.TakeDamage(this);
+        if (_playerHealth != null)
+            _playerHealth.TakeDamage(this);
 
         Destroy(gameObject);
     }

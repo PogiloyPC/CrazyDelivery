@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using InterfaceButton;
+using UIinterface;
 
 public class ControlePanelLevel : MonoBehaviour, IControleLevelPanel
 {

@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
-using InterfaceButton;
+using UIinterface;
 using System;
-using GameControleInterface;
+using SceneControleInterface;
 
 public class PanelSound : Panel
 {

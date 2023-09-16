@@ -2,9 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
-using GameControleInterface;
+using SceneControleInterface;
 using InterfaceDrug;
 using PlayerInterface;
+using TrapInterface;
 
 public class PlayerHealth : MonoBehaviour, IHealthPlayer
 {
@@ -40,7 +41,7 @@ public class PlayerHealth : MonoBehaviour, IHealthPlayer
         _currentHealth = _startHealth;
     }
 
-    public void TakeDamage(IHitPlayer damage)
+    public void TakeDamage(IDamageDillerPlayer damage)
     {
         int health = _currentHealth;
 

@@ -1,22 +1,31 @@
 using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using GameControleInterface;
-using InterfaceButton;
+using SceneControleInterface;
+using UIinterface;
 using ViewInterface;
 using UnityEngine.Audio;
 using PlayerInterface;
 
-public class ControleScene : MonoBehaviour, IControleScene, ISetActivePanel, IContainerTimeLevel
+public class ControleScene : MonoBehaviour, IControleScene, ISetActivePanel, IContainerTimeLevel, IContainerStartPosition, IContainePlayer
 {
     [SerializeField] private TableHandler _tableHandler;
 
-    [SerializeField] private PlayerHealth _playerHealth;
+    [SerializeField] private BoxPlayer _containerPlayer;
+     
+    private IHealthPlayer _playerHealth;
+    private IPlayer _player;
 
-    [SerializeField] private ControleUIScene _controleUIScene;
+    [SerializeField] private ControllerUIScene _controleUIScene;
+
+    [SerializeField] private TrapController _trapController;
+
+    [SerializeField] private CameraMoving _cameraMoving;
 
     [SerializeField] private AudioMixerSnapshot _pause;
     [SerializeField] private AudioMixerSnapshot _unpause;
+
+    [SerializeField] private Point _startPosition;
 
     private Action<ISetActivePanel> _onGameOver;
     private Action<ISetActivePanel> _onWinGame;    
@@ -30,16 +39,25 @@ public class ControleScene : MonoBehaviour, IControleScene, ISetActivePanel, ICo
     private void Start()
     {
         _controleUIScene.InitMenuPanel(this);
+
+        PlayerBody body = _containerPlayer.InstantiatePlayer(this);
         
+        _cameraMoving.InitPoint(body);
+
+        _playerHealth = body.GetPlayerHealth();
+        _player = body.GetPlayer();
+
+        _trapController.InitTrap(this);
+
         _playerHealth.InitAction(this);
 
         _onGameOver += _controleUIScene.GetPanelGameOver(this).ChangeActivePanel;
         _onWinGame += _controleUIScene.GetPanelWinGame(this).ChangeActivePanel;
 
-        _currentTimeLevel = _startTimeLevel;
+        _currentTimeLevel = _startTimeLevel;        
     }
 
-    public void Update()
+    private void Update()
     {
         _tableHandler.ReloadNavigator();
 
@@ -56,6 +74,8 @@ public class ControleScene : MonoBehaviour, IControleScene, ISetActivePanel, ICo
     public bool GetActive() => true;
 
     public IViewHealthPlayer GetViewHealthPlayer() => _controleUIScene.ViewHealthPlayer;
+
+    public IPlayer GetPlayer() => _player;
 
     public void RestartLevel(IHealthPlayer player)
     {
@@ -86,4 +106,6 @@ public class ControleScene : MonoBehaviour, IControleScene, ISetActivePanel, ICo
     public float CurrentTimeLevel() => _currentTimeLevel;
 
     public float StartTimeLevel() => _startTimeLevel;
+
+    public Vector3 GetStartPosition() => _startPosition.GetPosition();
 }

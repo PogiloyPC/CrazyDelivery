@@ -1,5 +1,5 @@
-using GameControleInterface;
-using InterfaceButton;
+using SceneControleInterface;
+using UIinterface;
 using System;
 using System.Collections.Generic;
 using UnityEngine;

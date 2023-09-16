@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7509858597535121737}
   - component: {fileID: 7509858597535121736}
   - component: {fileID: 7509858597535121739}
+  - component: {fileID: 3693536050229143724}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 7509858599471130186}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &7509858597535121736
 Rigidbody:
@@ -62,6 +63,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b438b230f11dd8d48903f72e1c55b37b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3693536050229143724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7509858597535121741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6859b8a0cd3cc3841a72bbe8a9eaae9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerHealth: {fileID: 7509858598750695668}
+  _player: {fileID: 7509858598750695671}
+  _point: {fileID: 7509858597535121739}
 --- !u!1 &7509858599216998091
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,31 +1,42 @@
+using PlayerInterface;
 using UnityEngine;
 
 namespace TrapInterface
 {
     public interface IFingerBoard
     {
-        public bool GetSignal();
+        bool GetSignal();
     }
     
     public interface IBoard
     {
-        public bool GetSignal();
+        bool GetSignal();
     }
 
     public interface IScaling
     {
-        public float GetForce();
+        float GetForce();
     }
 
     public interface IPlatformJumping
     {
-        public float GetForce();
+        float GetForce();
     }
 
     public interface IEnjector
     {
-        public Vector3 GetVelocityShells();
+        Vector3 GetVelocityShells();
 
-        public Vector3 GetForce();
+        Vector3 GetForce();
+    }
+
+    public interface IDamageDillerPlayer
+    {
+        int GiveDamage();
+    }
+
+    public interface ITrap
+    {
+        void InitTarget(IPlayer player);
     }
 }

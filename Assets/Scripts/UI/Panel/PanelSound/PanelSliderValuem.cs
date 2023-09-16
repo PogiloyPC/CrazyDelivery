@@ -1,4 +1,4 @@
-using InterfaceButton;
+using UIinterface;
 using UnityEngine;
 
 public class PanelSliderValuem : MonoBehaviour

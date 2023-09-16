@@ -22,20 +22,7 @@ public class Conveyor : MonoBehaviour, IConveyor
         }
     }
 
-    public Vector3 GetPosition() => _poolPosition.Dequeue();
-
-    private void OnDrawGizmos()
-    {
-        for (int i = 0; i < _countOrder; i++)
-        {
-            if (i % 2 == 0)
-                Gizmos.color = Color.blue;
-            if (i % 2 != 0)
-                Gizmos.color = Color.red;
-
-            Gizmos.DrawWireCube(transform.position + (transform.forward * _distance * i), new Vector3(1f, 0.5f, 1f));
-        }
-    }
+    public Vector3 GetPosition() => _poolPosition.Dequeue();    
 
     public void ReloadPositionOrder(IPlaceTakeOrder kitchen)
     {       
@@ -60,6 +47,19 @@ public class Conveyor : MonoBehaviour, IConveyor
                 break;
 
             yield return new WaitForSeconds(Time.deltaTime);
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        for (int i = 0; i < _countOrder; i++)
+        {
+            if (i % 2 == 0)
+                Gizmos.color = Color.blue;
+            if (i % 2 != 0)
+                Gizmos.color = Color.red;
+
+            Gizmos.DrawWireCube(transform.position + (transform.forward * _distance * i), new Vector3(1f, 0.5f, 1f));
         }
     }
 }

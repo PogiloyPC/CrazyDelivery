@@ -1,10 +1,9 @@
-using GameControleInterface;
-using InterfaceButton;
-using System;
+using SceneControleInterface;
+using UIinterface;
 using UnityEngine;
 using ViewInterface;
 
-public class ControleUIScene : MonoBehaviour
+public class ControllerUIScene : MonoBehaviour
 {
     [SerializeField] private ViewTimeLevel _viewTimeLevel;
 
