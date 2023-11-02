@@ -1,9 +1,11 @@
-using PathInterface;
 using UnityEngine;
 
-public abstract class PathMovingUnit : MovingUnit
+public class PathMovingUnit : MovingUnit
 {
     [SerializeField] private Path _path;
 
-    protected IPath PathReturn => _path;
+    private void Start()
+    {
+        InitMovable(_path);
+    }
 }

@@ -18,10 +18,21 @@ namespace PlayerInterface
         public bool CheckBusy();
     }
 
+    public interface IPlayerMovable
+    {
+        void Move(IControllerDirectionMovable controllerMovable);
+    }
+
+    public interface IControllerDirectionMovable
+    {
+        Vector3 GetDirectionMove();
+        Vector3 GetDirectionRotate();
+    }    
+
     public interface IDeliveryOrder
     {
         public Order GetOrder();
-    }
+    }    
 
     public interface ITakeOrder
     {

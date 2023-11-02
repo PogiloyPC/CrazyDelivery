@@ -1,99 +1,118 @@
 using PathInterface;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UnitInterface
 {
-    public interface IMovable
+    public interface IMovableUnit
     {
         void Move();
     }
 
-    public interface IBodyUnit
+    public abstract class MovableUnit : IMovableUnit
     {
-        void MoveBody(Vector3 target, float speed);
+        protected Point _currentPositionUnit;
 
-        Vector3 GetCurrentPosition();
-    }
+        protected NavMeshAgent _agent;
 
-    public class BodyUnit : IBodyUnit
-    {
-        private Point _pointBody;
+        public float DistanceForNextPoint { get; private set; } = 0.05f;
 
-        public BodyUnit(Point pointBody)
+        public MovableUnit(Point currentPositionUnit, NavMeshAgent agent)
         {
-            _pointBody = pointBody;
-        }
+            _currentPositionUnit = currentPositionUnit;
 
-        public Vector3 GetCurrentPosition() => _pointBody.GetPosition();
-
-        public void MoveBody(Vector3 target, float speed)
-        {
-            Transform body = _pointBody.GetTransform();
-
-            Vector3 nextMovePosition = Vector3.MoveTowards(body.position, target, speed * Time.deltaTime);
-
-            _pointBody.SetPosition(nextMovePosition);
-        }            
-    }
-
-    public abstract class MoveUnit : IMovable
-    {
-        protected IBodyUnit _body;
-
-        public float Speed { get; private set; }
-
-        public MoveUnit(IBodyUnit body, float speed)
-        {
-            _body = body;
-
-            Speed = speed;
+            _agent = agent;
         }
 
         public abstract void Move();
     }
 
-    public class PathMove : MoveUnit, IPathWalker
+    public class PathMovable : MovableUnit, IPathWalker
     {
         private IPath _path;
-        private float _distanceForNextPoint = 0.1f;
 
-        public PathMove(IBodyUnit body, float speed, IPath path) : base(body, speed)
+        public PathMovable(Point currentPositionUnit, NavMeshAgent agent, IPath path) : base(currentPositionUnit, agent)
         {
             _path = path;
         }
 
         public override void Move()
         {
-            _body.MoveBody(_path.GetNextPoint(), Speed);
+            if (!_agent.hasPath)
+                ReloadDirectionMove();
+        }
 
-            if (Vector3.Distance(_body.GetCurrentPosition(), _path.GetNextPoint()) < _distanceForNextPoint * _distanceForNextPoint)
-                _path.SetNextPoint(this);
+        private void ReloadDirectionMove()
+        {
+            _path.SetNextPoint(this);
+
+            _agent.SetDestination(_path.GetNextPoint());
         }
     }
 
-    public class RandomPointMove : MoveUnit
+    public class RandomMovable : MovableUnit
     {
-        public RandomPointMove(IBodyUnit body, float speed) : base(body, speed)
+        private Vector3 _directionMove;
+
+        private float _maxDistanceWalk = 15f;
+
+        public RandomMovable(Point currentPositionUnit, NavMeshAgent agent) : base(currentPositionUnit, agent)
+        {
+            ReloadDirectionMove();
+        }
+
+        public override void Move()
+        {
+            Debug.DrawLine(_currentPositionUnit.GetPosition(), _directionMove);
+
+            if (!_agent.hasPath)
+                ReloadDirectionMove();
+        }
+
+        private void ReloadDirectionMove()
+        {
+            NavMeshPath navPath = _agent.path;
+
+            Vector3 direction = new Vector3();
+
+            float x = 0f;
+            float z = 0f;
+
+            bool routeConfirmed = false;
+
+            while (!routeConfirmed)
+            {
+                x = Random.Range(_currentPositionUnit.GetPosition().x - _maxDistanceWalk,
+                _currentPositionUnit.GetPosition().x + _maxDistanceWalk);
+                z = Random.Range(_currentPositionUnit.GetPosition().z - _maxDistanceWalk,
+                    _currentPositionUnit.GetPosition().z + _maxDistanceWalk);
+
+                direction = new Vector3(x, _currentPositionUnit.GetPosition().y, z);
+
+                if (_agent.CalculatePath(direction, navPath))
+                {
+                    _directionMove = direction;
+
+                    _agent.SetDestination(_directionMove);
+
+                    routeConfirmed = true;
+                }
+            }
+
+
+        }
+    }
+
+    public class TargetMovable : MovableUnit
+    {
+        public TargetMovable(Point currentPositionUnit, NavMeshAgent agent, Vector3 TargetMove) : base(currentPositionUnit, agent)
         {
 
         }
 
         public override void Move()
         {
-
-        }
-    }
-
-    public class BuyerMove : MoveUnit
-    {
-        public BuyerMove(IBodyUnit body, float speed) : base(body, speed)
-        {
-
-        }
-
-        public override void Move()
-        {
-
+            throw new System.NotImplementedException();
         }
     }
 }

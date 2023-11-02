@@ -1,23 +1,25 @@
+using PathInterface;
 using UnitInterface;
 using UnityEngine;
+using UnityEngine.AI;
 
 public abstract class MovingUnit : Unit
 {
     [SerializeField] private Point _pointBody;
+    [SerializeField] private NavMeshAgent _agent;
 
-    protected IBodyUnit _bodyUnit;
+    protected IMovableUnit _movable;    
 
-    protected IMovable _movable;
-
-    [SerializeField] private float _speed;
-    public float Speed { get { return _speed; } private set { } }
-
-    private void Start()
+    protected void InitMovable(IPath path = null)
     {
-        _bodyUnit = new BodyUnit(_pointBody);
-
-        InitMovable();
+        if (path != null)
+            _movable = new PathMovable(_pointBody, _agent, path);
+        else
+            _movable = new RandomMovable(_pointBody, _agent);
     }
 
-    protected abstract void InitMovable();
+    private void Update()
+    {
+        _movable.Move();
+    }
 }

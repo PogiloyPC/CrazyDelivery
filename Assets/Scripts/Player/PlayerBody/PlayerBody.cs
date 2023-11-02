@@ -1,3 +1,4 @@
+using InterfaceEffects;
 using PlayerInterface;
 using UnityEngine;
 
@@ -10,5 +11,16 @@ public class PlayerBody : MonoBehaviour, IPlayerPoint
     public IHealthPlayer GetPlayerHealth() => _playerHealth;
     public IPlayer GetPlayer() => _player;
     public Point GetPoint() => _point;
+
+    private void OnTriggerEnter(Collider other)
+    {
+        IEffect effect = other.gameObject.GetComponent<IEffect>();
+
+        if (effect != null)
+        {
+           
+            _player.TakeEffect(effect);        
+        }
+    }
 }
 

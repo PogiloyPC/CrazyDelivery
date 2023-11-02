@@ -1,6 +1,7 @@
 using UnityEngine;
 using PlayerInterface;
 using TrapInterface;
+using InterfaceEffects;
 
 public class Player : MonoBehaviour, IPlayer, ICanJump, ITakeOrder, IDeliveryOrder
 {
@@ -11,8 +12,8 @@ public class Player : MonoBehaviour, IPlayer, ICanJump, ITakeOrder, IDeliveryOrd
 
     private Order _order;
 
-    private PlayerRotation _playerRotation;
-    private MovingPlayer _movingPlayer;
+    private ControllerPlayerRotation _controllerRotate;
+    private ControllerPlayerMovable _controllerMovable;
 
     [SerializeField] private Vector3 _direct;
 
@@ -24,24 +25,26 @@ public class Player : MonoBehaviour, IPlayer, ICanJump, ITakeOrder, IDeliveryOrd
 
     private void Start()
     {
-        _playerRotation = new PlayerRotation(transform, _speed, _smooth);
-        _movingPlayer = new MovingPlayer(_positionBody.GetTransform(), _rb, _speed);
+        _controllerMovable = new ControllerPlayerMovable(_rb, _positionBody, _speed);
+        _controllerRotate = new ControllerPlayerRotation(transform, _controllerMovable, _smooth);
     }
 
     private void Update()
     {
-        _playerRotation.Rotate();
+        _controllerMovable.ControleMovmentUpdate();
+        _controllerRotate.Rotate();
     }
 
     private void FixedUpdate()
     {
         if (!_isStope)
-            _movingPlayer.Moving();
+            _controllerMovable.ControleMovmentFixupdate();
     }
 
     public Vector3 GetPositionOrder() => _positionHandle.GetPosition();
 
     public Transform GetTransform() => _positionBody.GetTransform();
+
     public Transform GetTransformOrder() => _positionHandle.GetTransform();
 
     public float GetSpeedRotation() => _smooth;
@@ -76,4 +79,9 @@ public class Player : MonoBehaviour, IPlayer, ICanJump, ITakeOrder, IDeliveryOrd
     public void SetOrder(Order order) => _order = order;
 
     public Order GetOrder() => _order;
+
+    public void TakeEffect(IEffect effect)
+    {        
+        _controllerMovable.SetMovable(effect);
+    }
 }

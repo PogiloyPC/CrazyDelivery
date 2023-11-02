@@ -1,19 +1,16 @@
+using PlayerInterface;
 using UnityEngine;
 
-public class MovingPlayer
+public abstract class PlayerMovable : IPlayerMovable
 {
-    private Transform _transform;
+    protected Rigidbody _rb;
 
-    private InputPlayer _inputPlayer;
+    protected Point _transform;   
 
-    private Rigidbody _rb;
+    public float _speed { get; private set; }
 
-    private float _speed;
-
-    public MovingPlayer(Transform transform, Rigidbody rb, float speed)
+    public PlayerMovable(Point transform, Rigidbody rb, float speed)
     {
-        _inputPlayer = new InputPlayer();
-
         _transform = transform;
 
         _rb = rb;
@@ -21,24 +18,66 @@ public class MovingPlayer
         _speed = speed;
     }
 
-    public void Moving()
+    public abstract void Move(IControllerDirectionMovable controllerMovable);
+}
+
+public class DefaultMovable : PlayerMovable
+{
+    public DefaultMovable(Point transform, Rigidbody rb, float speed) : base(transform, rb, speed)
     {
-        float z = 0f;
-        float x = 0f;
 
-        if (_inputPlayer.GetKeyW())
-            z = _speed;
-        else if (_inputPlayer.GetKeyS())
-            z = -_speed;
+    }
 
-        if (_inputPlayer.GetKeyD())
-            x = _speed;
-        else if (_inputPlayer.GetKeyA())
-            x = -_speed;
+    public override void Move(IControllerDirectionMovable controllerMovable)
+    {        
+        Vector3 direction = controllerMovable.GetDirectionMove();
+        Vector3 directWorld = _transform.GetTransform().TransformVector(direction);
 
-        Vector3 direct = new Vector3(x, 0f, z);
-        Vector3 directWorld = _transform.TransformVector(direct);
+        _rb.velocity = directWorld;
+    }
+}
 
-        _rb.velocity = new Vector3(directWorld.x, _rb.velocity.y, directWorld.z);
+public class InverseMovable : PlayerMovable
+{
+    public InverseMovable(Point transform, Rigidbody rb, float speed) : base(transform, rb, speed)
+    {
+
+    }
+
+    public override void Move(IControllerDirectionMovable controllerMovable)
+    {       
+        Vector3 direction = controllerMovable.GetDirectionMove();
+        Vector3 directWorld = _transform.GetTransform().TransformVector(direction);
+
+        _rb.velocity = directWorld * -1;
+    }
+}
+
+public class SlowMovable : PlayerMovable
+{
+    public SlowMovable(Point transform, Rigidbody rb, float speed) : base(transform, rb, speed)
+    {
+
+    }
+
+    public override void Move(IControllerDirectionMovable controllerMovable)
+    {       
+        Vector3 direction = controllerMovable.GetDirectionMove();
+        Vector3 directWorld = _transform.GetTransform().TransformVector(direction);
+
+        _rb.velocity = directWorld / 3;
+    }
+}
+
+public class GlideMovable : PlayerMovable
+{
+
+    public GlideMovable(Point transform, Rigidbody rb, float speed) : base(transform, rb, speed)
+    {
+
+    }
+
+    public override void Move(IControllerDirectionMovable controllerMovable)
+    {       
     }
 }
